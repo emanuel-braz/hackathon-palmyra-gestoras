@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.everis.hackathon.models.Gestora;
 import com.everis.hackathon.services.GestoraService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value="Hackathon Rest API")
 @RestController
 @RequestMapping(value="/api/v1/gestoras", produces = MediaType.APPLICATION_JSON_VALUE)
 public class GestoraController {
@@ -26,6 +30,7 @@ public class GestoraController {
 		this.service = service;
 	}
 
+	@ApiOperation(value = "Retorna uma lista de Gestoras")
 	@GetMapping
 	public ResponseEntity<List<Gestora>> list() {
 		List<Gestora> gestoras = this.service.findAll();
@@ -36,6 +41,7 @@ public class GestoraController {
 		return ResponseEntity.ok(gestoras);
 	}
 
+	@ApiOperation(value="Cria uma Gestora")
 	@PostMapping
 	public ResponseEntity<Gestora> create(@RequestBody Gestora gestora) {
 		Gestora created = this.service.create(gestora);

@@ -27,7 +27,11 @@ public class GestoraRepository {
 		return gestora;
 	}
 
-	public void remove(String name) {
+	public void delete(String name) {
 		this.repository.remove(name);
+	}
+	
+	public void deleteAll() {
+		this.repository.clear();
 	}
 }

@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +32,7 @@ public class GestoraController {
 		this.service = service;
 	}
 
+	
 	@ApiOperation(value = "Retorna uma lista de Gestoras")
 	@GetMapping
 	public ResponseEntity<List<Gestora>> list() {
@@ -40,11 +43,26 @@ public class GestoraController {
 		}
 		return ResponseEntity.ok(gestoras);
 	}
+	
+	
+	@ApiOperation(value="Retorna uma gestora de acordo com parâmetro")
+	@GetMapping("/{name}")
+	public ResponseEntity<Gestora> findOne(@PathVariable String name) {
+		return ResponseEntity.ok(this.service.findByName(name));
+	}
+	
 
 	@ApiOperation(value="Cria uma Gestora")
 	@PostMapping
-	public ResponseEntity<Gestora> create(@RequestBody Gestora gestora) {
+	public ResponseEntity<Gestora> create(@RequestBody Gestora gestora) throws Exception {
 		Gestora created = this.service.create(gestora);
 		return ResponseEntity.status(HttpStatus.CREATED).body(created);
+	}
+	
+	@ApiOperation(value="Deleta todas as gestoras")
+	@DeleteMapping
+	public ResponseEntity<HttpStatus> deleteAll() {
+		this.service.deleteAll();
+		return ResponseEntity.ok(HttpStatus.ACCEPTED);
 	}
 }
